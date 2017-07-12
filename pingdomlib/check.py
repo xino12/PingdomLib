@@ -1,6 +1,6 @@
 import sys
 from pingdomlib.analysis import PingdomAnalysis
-
+import json
 
 checktypes = ['http', 'httpcustom', 'tcp', 'ping', 'dns', 'udp', 'smtp',
               'pop3', 'imap']
@@ -47,7 +47,7 @@ class PingdomCheck(object):
                     'sendnotificationwhendown', 'notifyagainevery',
                     'notifywhenbackup', 'created', 'type', 'hostname',
                     'status', 'lasterrortime', 'lasttesttime',
-                    'use_legacy_notifications', 'lastresponsetime', 'probe_filters',]
+                    'use_legacy_notifications', 'lastresponsetime', 'probe_filters','tags',]
 
     def __init__(self, instantiator, checkinfo=dict()):
         self.pingdom = instantiator
@@ -73,7 +73,7 @@ class PingdomCheck(object):
                    'postdata', 'additionalurls', 'stringtosend',
                    'stringtoexpect', 'expectedip', 'nameserver',
                    'use_legacy_notifications', 'host', 'alert_policy',
-                   'autoresolve', 'probe_filters']:
+                   'autoresolve', 'probe_filters','tags']:
             if self.pingdom.pushChanges:
                 self.modify(**{key: value})
             else:
@@ -172,6 +172,11 @@ class PingdomCheck(object):
         else:
             object.__setattr__(self, 'paused', False)
 
+        if 'tags' in checkinfo:
+            object.__setattr__(self, 'tags', checkinfo['tags'])
+        else:
+            object.__setattr__(self, 'tags', None)
+
     def getDetails(self):
         """Update check details, returns dictionary of details"""
 
@@ -234,6 +239,10 @@ class PingdomCheck(object):
 
             * probe_filters -- Can be one of region: NA, region: EU, region: APAC
                     Type: String
+            
+            * tags -- Tags for this check
+                    Type: String ['high', 'critical', 'db']
+
 
         HTTP check options:
 
@@ -366,7 +375,7 @@ class PingdomCheck(object):
                            'shouldnotcontain', 'postdata', 'additionalurls',
                            'stringtosend', 'stringtoexpect', 'expectedip',
                            'nameserver', 'use_legacy_notifications', 'host',
-                           'alert_policy', 'autoresolve', 'probe_filters']:
+                           'alert_policy', 'autoresolve', 'probe_filters','tags']:
                 sys.stderr.write("'%s'" % key + ' is not a valid argument of' +
                                  '<PingdomCheck>.modify()\n')
 

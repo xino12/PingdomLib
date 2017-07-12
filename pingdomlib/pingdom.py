@@ -1,6 +1,5 @@
 import requests
 import sys
-
 from pingdomlib.check import PingdomCheck
 from pingdomlib.contact import PingdomContact
 from pingdomlib.reports import PingdomEmailReport, PingdomSharedReport
@@ -210,7 +209,7 @@ class Pingdom(object):
 
         # Warn user about unhandled parameters
         for key in parameters:
-            if key not in ['limit', 'offset', 'tags']:
+            if key not in ['limit', 'offset', 'tags', 'include_tags']:
                 sys.stderr.write('%s not a valid argument for getChecks()\n'
                                  % key)
 
