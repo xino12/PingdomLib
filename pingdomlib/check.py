@@ -1,6 +1,5 @@
 import sys
 from pingdomlib.analysis import PingdomAnalysis
-import json
 
 checktypes = ['http', 'httpcustom', 'tcp', 'ping', 'dns', 'udp', 'smtp',
               'pop3', 'imap']
